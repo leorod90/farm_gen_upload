@@ -1,7 +1,6 @@
 import { onSnapshot } from "firebase/firestore";
 import React from "react";
 import { StyleSheet, FlatList } from "react-native";
-import Styles from "../../constants/Styles";
 import { farmsRef, realTimeGetFarm } from "../../firebase/utils";
 import MainCard from "./MainCard";
 

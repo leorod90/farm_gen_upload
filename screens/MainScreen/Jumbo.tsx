@@ -25,7 +25,6 @@ export default function Jumbo() {
             styles.button,
             {
               opacity: pressed ? 0.5 : 1,
-              // transform: [{ scale: pressed ? 1.1 : 1 }],
             },
           ]}
         >

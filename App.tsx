@@ -7,7 +7,7 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const functions = getFunctions();
+  // const functions = getFunctions();
 
   // React.useEffect(() => {
   //   const test = async () => {

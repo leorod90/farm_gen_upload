@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@testing-library/cypress": "^8.0.2",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "cypress": "^9.4.1",
