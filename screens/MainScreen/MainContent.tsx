@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop: Styles.container.paddingVertical,
-    paddingHorizontal: Styles.container.bigPaddingHorizontal,
+    paddingHorizontal: Styles.container.paddingHorizontal,
   },
   wrapper: {
     // flex: 1,

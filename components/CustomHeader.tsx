@@ -10,7 +10,6 @@ import {
 import Colors from "../constants/Colors";
 import Styles from "../constants/Styles";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -18,16 +17,21 @@ import Animated, {
 } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CustomHeader({ bubbleShow, setBubbleShow }: any) {
+export default function CustomHeader({
+  bubbleAnim,
+  setBubbleShow,
+  setBubbleAnim,
+}: any) {
   const navigate = useNavigation();
 
   const toggleAccountHandler = () => {
-    setBubbleShow((prevCheck: boolean) => !prevCheck);
+    setBubbleShow(true);
+    setBubbleAnim((prevCheck: boolean) => !prevCheck);
   };
 
   const derived = useDerivedValue(
-    () => (bubbleShow ? withTiming("180deg") : withTiming("0deg")),
-    [bubbleShow]
+    () => (!bubbleAnim ? withTiming("180deg") : withTiming("0deg")),
+    [bubbleAnim]
   );
 
   const cStyle = useAnimatedStyle(() => {
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkGreen,
   },
   container: {
-    paddingHorizontal: Styles.container.bigPaddingHorizontal,
+    paddingHorizontal: Styles.container.paddingHorizontal,
     height: Styles.header.height,
     width: "100%",
     // justifyContent: "center",

@@ -1,11 +1,6 @@
 const functions = require("firebase-functions");
-
-//test
-exports.randomNumber = functions.https.onRequest((request, response) => {
-  const number = Math.round(Math.random() * 100);
-  console.log(number);
-  response.send(number.toString());
-});
+const admin = require("firebase-admin");
+admin.initializeApp(functions.config().firebase);
 
 //redirect
 exports.redirectToHome = functions.https.onRequest((request, response) => {
@@ -17,7 +12,31 @@ exports.redirectToList = functions.https.onRequest((request, response) => {
 });
 
 //callable
-exports.sayHello = functions.https.onCall((data, context) => {
-  return `hello world`;
-});
 
+//filter
+exports.checkUnique = functions.firebase.checkUnique((req, res) => {});
+// exports.checkUnique = functions.https.onRequest((req, res) => {
+//   var stuff = [];
+//   var db = admin.firestore();
+//   db.collection("Users")
+//     .doc("7vFjDJ63DmhcQiEHwl0M7hfL3Kt1")
+//     .collection("blabla")
+//     .get()
+//     .then((snapshot) => {
+//       snapshot.forEach((doc) => {
+//         var newelement = {
+//           id: doc.id,
+//           xxxx: doc.data().xxx,
+//           yyy: doc.data().yyy,
+//         };
+//         stuff = stuff.concat(newelement);
+//       });
+//       res.send(stuff);
+//       return "";
+//     })
+//     .catch((reason) => {
+//       res.send(reason);
+//     });
+//   if (Promise.resolve()) {
+//   }
+// });

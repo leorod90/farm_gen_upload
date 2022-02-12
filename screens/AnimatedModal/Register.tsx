@@ -6,7 +6,7 @@ import { registerUser } from "../../firebase/utils";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Register({ closeModal }: any) {
-  const navigate = useNavigation();
+  const navigate = useNavigation<any>();
 
   const registerHandler = async (values: any) => {
     const checkUser = await registerUser({

@@ -26,7 +26,7 @@ export default {
     sHeight,
   },
   container: {
-    maxWidth: 1360,
+    maxWidth: 1200,
     paddingHorizontal: "2.5%",
     bigPaddingHorizontal: "10%",
     paddingVertical: 20,

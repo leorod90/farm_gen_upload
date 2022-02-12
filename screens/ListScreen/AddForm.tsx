@@ -2,7 +2,14 @@ import React from "react";
 import { TextInput, Text, Button, View, StyleSheet } from "react-native";
 import * as yup from "yup";
 import { Formik } from "formik";
-import { addDoc, doc, setDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  setDoc,
+  collection,
+  onSnapshot,
+  getDocs,
+} from "firebase/firestore";
 import { db, farmsRef } from "../../firebase/utils";
 
 export default function AddForm() {
@@ -21,6 +28,7 @@ export default function AddForm() {
       .string()
       .trim()
       .min(1)
+      .max(15)
       .required("Please provide a store name"),
     storeImage: yup.string().trim(),
     storePhone: yup
@@ -38,21 +46,11 @@ export default function AddForm() {
       values;
     let nameTaken = false;
     const idName = displayName.replace(/ /g, "").toLowerCase();
-
-    // var ref = db.ref("farms/");
-    // var query = ref.orderByChild("idName").equalTo(idName);
-
-    // query.once("value", function (snapshot) {
-    //   console.log(snapshot.exists());
-    // });
+    const data = await getDocs(farmsRef);
+    const farms = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    nameTaken = farms.some((i) => i.idName == idName);
     if (nameTaken) {
-      // var ref = firebase.database().ref("users/ada");
-      // ref.once("value").then(function (snapshot) {
-      //   var a = snapshot.exists(); // true
-      //   var b = snapshot.child("name").exists(); // true
-      //   var c = snapshot.child("name/first").exists(); // true
-      //   var d = snapshot.child("name/middle").exists(); // false
-      // });
+      return alert("Name Taken!");
     } else {
       try {
         console.log(storeImage);
@@ -66,14 +64,7 @@ export default function AddForm() {
             close: storeClose,
           },
         });
-        // await setDoc(doc(db, "farms", idName), {
-        //   displayName,
-        //   storeImage,
-        //   storePhone,
-        //   storeHours: {
-        //     open: storeOpen,
-        //     close: storeClose,
-        //   },
+
         // });
       } catch (error) {
         console.log(error.message);

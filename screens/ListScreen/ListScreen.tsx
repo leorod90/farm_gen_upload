@@ -8,7 +8,7 @@ import AddForm from "./AddForm";
 import VerticalList from "./VerticalList";
 
 export default function ListScreen() {
-  const [user, setUser] = React.useState<any>({});
+  const [user, setUser] = React.useState<any>("load");
 
   React.useEffect(() => {
     const checkUser = async () => {
@@ -18,6 +18,10 @@ export default function ListScreen() {
     };
     checkUser();
   }, [auth]);
+
+  console.log(user);
+
+  if (user === "load") return <View style={{ flex: 1 }} />;
 
   return (
     <View style={styles.container}>
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop: Styles.container.paddingVertical,
-    paddingHorizontal: Styles.container.bigPaddingHorizontal,
+    paddingHorizontal: Styles.container.paddingHorizontal,
   },
   wrapper: {
     height: "100%",

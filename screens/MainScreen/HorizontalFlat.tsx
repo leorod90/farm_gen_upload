@@ -1,6 +1,6 @@
 import { onSnapshot } from "firebase/firestore";
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 import { farmsRef, realTimeGetFarm } from "../../firebase/utils";
 import MainCard from "./MainCard";
 
@@ -21,21 +21,23 @@ export default function HorizontalFlat() {
     realTimeGetFarm();
   }, [farmsRef]);
   return (
-    <FlatList
-      data={data}
-      keyExtractor={(item, index) => "key" + index}
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      renderItem={({ item }: any) => <MainCard item={item} />}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => "key" + index}
+        // style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }: any) => <MainCard item={item} />}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flexGrow: 1,
   },
   contentContainer: {
     margin: 5,

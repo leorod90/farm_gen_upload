@@ -3,7 +3,7 @@ import { RootStackParamList } from "./index";
 import * as Linking from "expo-linking";
 
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl("/")],
+  prefixes: [Linking.makeUrl("/Main")],
   config: {
     screens: {
       Main: {

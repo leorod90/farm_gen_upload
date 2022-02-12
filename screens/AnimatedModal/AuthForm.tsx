@@ -2,26 +2,16 @@ import React from "react";
 import { useState } from "react";
 import {
   StyleSheet,
-  TextInput,
   View,
   Button,
   TouchableWithoutFeedback,
 } from "react-native";
-import Styles from "../../constants/Styles";
-import { auth, registerUser, signInUser } from "../../firebase/utils";
 import Register from "./Register";
 import Login from "./Login";
 import CustomText from "../../components/CustomText";
 
 export default function AuthForm({ setModalShow }: any) {
-  const [mode, setMode] = useState("register");
-
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-
-  const registerHandler = () => {
-    registerUser({ authEmail: registerEmail, authPassword: registerPassword });
-  };
+  const [mode, setMode] = useState("login");
 
   const closeModal = () => {
     setModalShow(false);
@@ -58,11 +48,11 @@ export default function AuthForm({ setModalShow }: any) {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    height: Styles.window.wHeight,
+    height: "100%",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    padding: 25,
+    minHeight: 550,
     zIndex: 100,
   },
   formBg: {

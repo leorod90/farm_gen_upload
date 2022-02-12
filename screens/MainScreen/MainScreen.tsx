@@ -5,6 +5,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Colors from "../../constants/Colors";
+import Styles from "../../constants/Styles";
 import { RootStackProps } from "../../navigation";
 import MainContent from "./MainContent";
 
@@ -35,7 +36,8 @@ export default function MainScreen({ navigation }: RootStackProps<"Main">) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    paddingBottom: Styles.header.height,
   },
   saleHeader: {
     height: 80,

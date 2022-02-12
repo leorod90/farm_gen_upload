@@ -15,6 +15,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import AnimatedModal from "../screens/AnimatedModal/AnimatedModal";
 import ListScreen from "../screens/ListScreen/ListScreen";
 import Bubble from "../components/Bubble";
+import { View } from "react-native";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -26,7 +27,9 @@ const MyTheme = {
 
 export default function Navigation() {
   const [modalShow, setModalShow] = React.useState(false);
+  const [modalAnim, setModalAnim] = React.useState(false);
   const [bubbleShow, setBubbleShow] = React.useState(false);
+  const [bubbleAnim, setBubbleAnim] = React.useState(false);
 
   return (
     <NavigationContainer
@@ -34,12 +37,31 @@ export default function Navigation() {
       fallback={<CustomText>Loading...</CustomText>}
       theme={MyTheme}
     >
-      <CustomHeader bubbleShow={bubbleShow} setBubbleShow={setBubbleShow} />
-      <RootNavigator />
-      {bubbleShow && (
-        <Bubble setBubbleShow={setBubbleShow} setModalShow={setModalShow} />
-      )}
-      {modalShow && <AnimatedModal setModalShow={setModalShow} />}
+      <View style={{ flex: 1, overflow: modalShow ? "hidden" : "unset" }}>
+        <CustomHeader
+          bubbleShow={bubbleShow}
+          bubbleAnim={bubbleAnim}
+          setBubbleShow={setBubbleShow}
+          setBubbleAnim={setBubbleAnim}
+        />
+        <RootNavigator />
+        {bubbleShow && (
+          <Bubble
+            setModalShow={setModalShow}
+            setModalAnim={setModalAnim}
+            setBubbleShow={setBubbleShow}
+            setBubbleAnim={setBubbleAnim}
+            bubbleAnim={bubbleAnim}
+          />
+        )}
+        {modalShow && (
+          <AnimatedModal
+            setModalShow={setModalShow}
+            modalAnim={modalAnim}
+            setModalAnim={setModalAnim}
+          />
+        )}
+      </View>
     </NavigationContainer>
   );
 }

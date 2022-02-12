@@ -1,12 +1,12 @@
 import React from "react";
-import { TextInput, Text, Button, Alert, View, StyleSheet } from "react-native";
+import { TextInput, Text, Button, View, StyleSheet } from "react-native";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { signInUser } from "../../firebase/utils";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Login({ closeModal }: any) {
-  const navigate = useNavigation();
+  const navigate = useNavigation<any>();
 
   const signInHandler = async (values: any) => {
     const checkUser = await signInUser({
@@ -36,7 +36,7 @@ export default function Login({ closeModal }: any) {
         password: yup
           .string()
           .min(6)
-          .max(10, "Password should not excced 10 chars.")
+          .max(10, "Password should not exceed 10 chars.")
           .required(),
       })}
     >

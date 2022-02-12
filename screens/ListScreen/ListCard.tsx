@@ -9,10 +9,10 @@ import { db } from "../../firebase/utils";
 
 export default function ListCard({ item }: any) {
   const { id, storeHours, storeImage, displayName, storePhone } = item;
-  const [image, setImage] = React.useState(storeImage);
+  const [imageError, setImageError] = React.useState(false);
 
   const onError = () => {
-    setImage(require("../../assets/images/no_image.png"));
+    setImageError(true);
   };
 
   const phoneFormat = (phoneNumberString: string) => {
@@ -34,7 +34,12 @@ export default function ListCard({ item }: any) {
       <View style={styles.wrapper}>
         <Image
           style={styles.image}
-          source={{ uri: storeImage }}
+          // resizeMode='stretch'
+          source={
+            imageError
+              ? require("../../assets/images/no_image.png")
+              : { uri: storeImage }
+          }
           // onError={onError}
           defaultSource={require("../../assets/images/gray.png")}
         />
@@ -102,6 +107,7 @@ export default function ListCard({ item }: any) {
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 15,
     height: 130,
     width: "100%",
     marginRight: 20,
