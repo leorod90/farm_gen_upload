@@ -1,16 +1,26 @@
-import { onSnapshot } from "firebase/firestore";
+import { onSnapshot, orderBy, query, where } from "firebase/firestore";
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import Styles from "../../constants/Styles";
 import { farmsRef } from "../../firebase/utils";
-import ListCard from "./ListCard";
+import VerticalCard from "./VerticalCard";
 
-export default function FarmList() {
+interface Props {
+  uid: any;
+}
+
+export default function FarmList({ uid }: Props) {
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     const realTimeGetFarm = async () => {
-      onSnapshot(farmsRef, (snapshot) => {
+      const q = query(
+        farmsRef,
+        where("createdBy", "==", uid),
+        orderBy("createdAt", "desc")
+      );
+
+      onSnapshot(q, (snapshot) => {
         let farms: any = [];
         snapshot.docs.forEach((doc) => {
           farms.push({ id: doc.id, ...doc.data() });
@@ -27,7 +37,7 @@ export default function FarmList() {
       keyExtractor={(item, index) => "key" + index}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
-      renderItem={({ item }: any) => <ListCard item={item} />}
+      renderItem={({ item }: any) => <VerticalCard item={item} />}
     />
   );
 }

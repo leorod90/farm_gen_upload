@@ -102,7 +102,7 @@ export default function Bubble({
 
   const editFarmHandler = () => {
     setBubbleAnim(false);
-    navigation.navigate("List");
+    navigation.navigate("Edit");
   };
 
   return (

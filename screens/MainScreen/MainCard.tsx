@@ -26,7 +26,12 @@ export default function Card({ item }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Image style={styles.image} source={{ uri: storeImage }} onError={onError} />
+        <Image
+          style={styles.image}
+          source={{ uri: storeImage }}
+          onError={onError}
+          defaultSource={require("../../assets/images/gray.png")}
+        />
         <View style={styles.info}>
           <View style={styles.title}>
             <CustomText fancy bold black size={20}>

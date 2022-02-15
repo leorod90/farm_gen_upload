@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
-
+const db = admin.firestore();
 //redirect
 exports.redirectToHome = functions.https.onRequest((request, response) => {
   response.redirect("/");
@@ -14,7 +14,12 @@ exports.redirectToList = functions.https.onRequest((request, response) => {
 //callable
 
 //filter
-exports.checkUnique = functions.firebase.checkUnique((req, res) => {});
+exports.checkUnique = functions.firestore
+  .document("/farms/{documentId}")
+  .onCreate((snapshot, context) => {
+    console.log(snapshot.data());
+    return Promise.resolve();
+  });
 // exports.checkUnique = functions.https.onRequest((req, res) => {
 //   var stuff = [];
 //   var db = admin.firestore();

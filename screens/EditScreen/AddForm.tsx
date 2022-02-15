@@ -9,10 +9,15 @@ import {
   collection,
   onSnapshot,
   getDocs,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db, farmsRef } from "../../firebase/utils";
 
-export default function AddForm() {
+interface Props {
+  uid: any;
+}
+
+export default function AddForm({ uid }: Props) {
   const initialValues = {
     displayName: "",
     storeImage: "",
@@ -49,12 +54,15 @@ export default function AddForm() {
     const data = await getDocs(farmsRef);
     const farms = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     nameTaken = farms.some((i) => i.idName == idName);
+
     if (nameTaken) {
       return alert("Name Taken!");
     } else {
       try {
         console.log(storeImage);
         await addDoc(farmsRef, {
+          createdBy: uid,
+          createdAt: serverTimestamp(),
           idName,
           displayName,
           storeImage,

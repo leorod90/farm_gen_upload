@@ -13,7 +13,7 @@ import CustomHeader from "../components/CustomHeader";
 import MainScreen from "../screens/MainScreen/MainScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import AnimatedModal from "../screens/AnimatedModal/AnimatedModal";
-import ListScreen from "../screens/ListScreen/ListScreen";
+import EditScreen from "../screens/EditScreen/EditScreen";
 import Bubble from "../components/Bubble";
 import { View } from "react-native";
 
@@ -37,7 +37,7 @@ export default function Navigation() {
       fallback={<CustomText>Loading...</CustomText>}
       theme={MyTheme}
     >
-      <View style={{ flex: 1, overflow: modalShow ? "hidden" : "unset" }}>
+      <View style={{ flex: 1, overflow: modalShow ? "hidden" : "scroll" }}>
         <CustomHeader
           bubbleShow={bubbleShow}
           bubbleAnim={bubbleAnim}
@@ -68,7 +68,7 @@ export default function Navigation() {
 
 export type RootStackParamList = {
   Main: undefined;
-  List: undefined;
+  Edit: undefined;
 };
 
 export type RootStackProps<T extends keyof RootStackParamList> = {
@@ -86,7 +86,7 @@ function RootNavigator() {
       }}
     >
       <Stack.Screen name="Main" component={MainScreen} />
-      <Stack.Screen name="List" component={ListScreen} />
+      <Stack.Screen name="Edit" component={EditScreen} />
     </Stack.Navigator>
   );
 }

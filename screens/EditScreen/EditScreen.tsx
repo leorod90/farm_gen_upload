@@ -7,7 +7,7 @@ import { auth } from "../../firebase/utils";
 import AddForm from "./AddForm";
 import VerticalList from "./VerticalList";
 
-export default function ListScreen() {
+export default function EditScreen() {
   const [user, setUser] = React.useState<any>("load");
 
   React.useEffect(() => {
@@ -19,7 +19,7 @@ export default function ListScreen() {
     checkUser();
   }, [auth]);
 
-  console.log(user);
+  // console.log(user.uid);
 
   if (user === "load") return <View style={{ flex: 1 }} />;
 
@@ -28,8 +28,8 @@ export default function ListScreen() {
       <View style={styles.wrapper}>
         {user?.email ? (
           <>
-            <VerticalList />
-            <AddForm />
+            <VerticalList uid={user.uid} />
+            <AddForm uid={user.uid} />
           </>
         ) : (
           <CustomText bold black size={32}>

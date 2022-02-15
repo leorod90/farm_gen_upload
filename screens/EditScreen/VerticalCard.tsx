@@ -7,7 +7,7 @@ import Styles from "../../constants/Styles";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/utils";
 
-export default function ListCard({ item }: any) {
+export default function VerticalCard({ item }: any) {
   const { id, storeHours, storeImage, displayName, storePhone } = item;
   const [imageError, setImageError] = React.useState(false);
 

@@ -15,7 +15,7 @@ export default function Register({ closeModal }: any) {
     });
     if (checkUser) {
       closeModal();
-      navigate.navigate("List");
+      navigate.navigate("Edit");
     } else {
       alert("could not sign in");
     }
