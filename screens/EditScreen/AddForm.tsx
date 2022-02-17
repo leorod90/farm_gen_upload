@@ -2,16 +2,7 @@ import React from "react";
 import { TextInput, Text, Button, View, StyleSheet } from "react-native";
 import * as yup from "yup";
 import { Formik } from "formik";
-import {
-  addDoc,
-  doc,
-  setDoc,
-  collection,
-  onSnapshot,
-  getDocs,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db, farmsRef } from "../../firebase/utils";
+import { addFarm } from "../../firebase/utils";
 
 interface Props {
   uid: any;
@@ -47,37 +38,7 @@ export default function AddForm({ uid }: Props) {
   });
 
   const submitHandler = async (values: any) => {
-    const { displayName, storeImage, storePhone, storeOpen, storeClose } =
-      values;
-    let nameTaken = false;
-    const idName = displayName.replace(/ /g, "").toLowerCase();
-    const data = await getDocs(farmsRef);
-    const farms = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    nameTaken = farms.some((i) => i.idName == idName);
-
-    if (nameTaken) {
-      return alert("Name Taken!");
-    } else {
-      try {
-        console.log(storeImage);
-        await addDoc(farmsRef, {
-          createdBy: uid,
-          createdAt: serverTimestamp(),
-          idName,
-          displayName,
-          storeImage,
-          storePhone,
-          storeHours: {
-            open: storeOpen,
-            close: storeClose,
-          },
-        });
-
-        // });
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
+    await addFarm(values, uid);
   };
 
   return (

@@ -10,7 +10,6 @@ export default function MainContent() {
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Jumbo />
-        <Pagination />
         <HorizontalFlat />
       </View>
     </View>

@@ -9,6 +9,9 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  serverTimestamp,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -32,17 +35,6 @@ interface AuthProps {
   authPassword: string;
 }
 
-interface FarmInputProps {
-  displayName: string;
-  storeImage: string;
-  storePhone: string;
-  storeHours: {
-    open: string;
-    close: string;
-  };
-}
-//methods
-
 //AUTH
 export const registerUser = async ({ authEmail, authPassword }: AuthProps) => {
   try {
@@ -51,11 +43,13 @@ export const registerUser = async ({ authEmail, authPassword }: AuthProps) => {
       authEmail,
       authPassword
     );
-    return data.user.email;
+    return data.user;
   } catch (error) {
     console.log(error.message);
+    return null;
   }
 };
+
 export const signInUser = async ({ authEmail, authPassword }: AuthProps) => {
   try {
     const data = await signInWithEmailAndPassword(
@@ -63,9 +57,10 @@ export const signInUser = async ({ authEmail, authPassword }: AuthProps) => {
       authEmail,
       authPassword
     );
-    return data.user.email;
+    return data.user;
   } catch (error) {
     console.log(error.message);
+    return null;
   }
 };
 export const signOutUser = async () => {
@@ -82,39 +77,61 @@ export const checkIfLoggedIn = async () => {
 //FARM
 
 //get doc
-export const realTimeGetFarm = async () => {
-  let farms: any = [];
-  await onSnapshot(farmsRef, (snapshot) => {
+export const getHorizontalFarm = async () => {
+  const q = query(farmsRef, orderBy("createdAt", "asc"));
+  await onSnapshot(q, (snapshot) => {
+    let farms: any = [];
     snapshot.docs.forEach((doc) => {
       farms.push({ id: doc.id, ...doc.data() });
     });
-  });
-  return farms;
-};
-
-export const getFarms = async () => {
-  try {
-    const data = await getDocs(farmsRef);
-    //returns array
-    const farms = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
     console.log(farms);
-  } catch (error) {
-    console.log(error.message);
-  }
+  });
 };
+
+export const getVerticalFarm = async () => {};
+
+//CRUD
 
 //add doc
-export const addFarm = async (farmInput: FarmInputProps) => {
-  try {
-    addDoc(farmsRef, farmInput);
-  } catch (error) {
-    console.log(error.message);
+export const addFarm = async (values: any, uid: string) => {
+  const { displayName, storeImage, storePhone, storeOpen, storeClose } = values;
+  let nameTaken = false;
+  const idName = displayName.replace(/ /g, "").toLowerCase();
+  const data = await getDocs(farmsRef);
+  const farms = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  nameTaken = farms.some((i) => i.idName == idName);
+
+  if (nameTaken) {
+    return alert("Name Taken!");
+  } else {
+    try {
+      console.log(storeImage);
+      await addDoc(farmsRef, {
+        createdBy: uid,
+        createdAt: serverTimestamp(),
+        idName,
+        displayName,
+        storeImage,
+        storePhone,
+        storeHours: {
+          open: storeOpen,
+          close: storeClose,
+        },
+      });
+
+      // });
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 };
+
 //delete doc
 export const deleteFarm = async (id: string) => {
   const docRef = doc(db, "farms", id);
-
-  await deleteDoc(docRef);
+  try {
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.log(error);
+  }
 };

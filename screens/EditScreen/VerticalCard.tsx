@@ -5,7 +5,7 @@ import CustomText from "../../components/CustomText";
 import Colors from "../../constants/Colors";
 import Styles from "../../constants/Styles";
 import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase/utils";
+import { db, deleteFarm } from "../../firebase/utils";
 
 export default function VerticalCard({ item }: any) {
   const { id, storeHours, storeImage, displayName, storePhone } = item;
@@ -26,7 +26,8 @@ export default function VerticalCard({ item }: any) {
 
   const deleteHandler = () => {
     const farmDoc = doc(db, "farms", id);
-    deleteDoc(farmDoc);
+    deleteFarm(id);
+    // deleteDoc(farmDoc);
   };
 
   return (

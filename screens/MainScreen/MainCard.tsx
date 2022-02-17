@@ -5,12 +5,18 @@ import Colors from "../../constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import Styles from "../../constants/Styles";
 import AnimatedHeart from "../../components/AnimatedHeart";
+interface Props {
+  item: any;
+  CARD_WIDTH: number;
+  CARD_MARGIN: number;
+}
 
-export default function Card({ item }: any) {
+export default function Card({ item, CARD_WIDTH, CARD_MARGIN }: Props) {
   const { storeHours, storeImage, displayName, storePhone } = item;
   const [image, setImage] = React.useState(storeImage);
 
   const onError = () => {
+    console.log("no image");
     setImage(require("../../assets/images/no_image.png"));
   };
 
@@ -24,13 +30,18 @@ export default function Card({ item }: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { width: CARD_WIDTH, marginHorizontal: CARD_MARGIN },
+      ]}
+    >
       <View style={styles.wrapper}>
         <Image
           style={styles.image}
-          source={{ uri: storeImage }}
+          source={image}
           onError={onError}
-          defaultSource={require("../../assets/images/gray.png")}
+          // defaultSource={require("../../assets/images/gray.png")}
         />
         <View style={styles.info}>
           <View style={styles.title}>
@@ -83,7 +94,7 @@ export default function Card({ item }: any) {
           {/* <CustomText size={14} black style={{ fontWeight: 600 }}>
             69 products in stock
           </CustomText> */}
-          <CustomText size={14} black style={{ fontWeight: 600 }}>
+          <CustomText size={14} black style={{ fontWeight: "600" }}>
             Phone Number: {storePhone ? phoneFormat(storePhone) : "N/A"}
           </CustomText>
           <View style={styles.btnContain}>
@@ -91,7 +102,7 @@ export default function Card({ item }: any) {
               <CustomText
                 size={18}
                 color={Colors.green}
-                style={{ fontWeight: 600 }}
+                style={{ fontWeight: "600" }}
               >
                 Shop Now
               </CustomText>
@@ -106,8 +117,6 @@ export default function Card({ item }: any) {
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    width: 400,
-    marginRight: 20,
     backgroundColor: "white",
     overflow: "hidden",
     borderRadius: 10,

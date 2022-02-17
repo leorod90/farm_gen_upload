@@ -1,5 +1,12 @@
 import React from "react";
-import { TextInput, Text, Button, View, StyleSheet } from "react-native";
+import {
+  TextInput,
+  Text,
+  Button,
+  View,
+  StyleSheet,
+  LogBox,
+} from "react-native";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { registerUser } from "../../firebase/utils";
@@ -13,7 +20,7 @@ export default function Register({ closeModal }: any) {
       authEmail: values.email,
       authPassword: values.password,
     });
-    if (checkUser) {
+    if (checkUser?.email) {
       closeModal();
       navigate.navigate("Edit");
     } else {
@@ -116,4 +123,4 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-console.disableYellowBox = true;
+LogBox.ignoreAllLogs(true);

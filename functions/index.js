@@ -2,46 +2,27 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
-//redirect
-exports.redirectToHome = functions.https.onRequest((request, response) => {
-  response.redirect("/");
+
+exports.checkUnique = functions.https.onCall((data, context) => {
+  if (!context.auth) {
+    //check if logged in
+    throw new functions.https.HttpsError("unauthenticated", "please log in");
+  }
+  console.log(data);
+  // admin.firestore().collection('farms').add({
+
+  // })
 });
 
-exports.redirectToList = functions.https.onRequest((request, response) => {
-  response.redirect("/List");
-});
+exports.logActivities = functions.firestore
+  .document("farms/{id}")
+  .onCreate(async (snap, context) => {
+    console.log(snap.data);
+    throw new functions.https.HttpsError("already-exists", "Error");
+    console.log(snap.data);
+    const id = context.params.id;
 
-//callable
-
-//filter
-exports.checkUnique = functions.firestore
-  .document("/farms/{documentId}")
-  .onCreate((snapshot, context) => {
-    console.log(snapshot.data());
-    return Promise.resolve();
+    const farms = admin.firestore().collection("farms");
+    console.log("--------------");
+    console.log(farms);
   });
-// exports.checkUnique = functions.https.onRequest((req, res) => {
-//   var stuff = [];
-//   var db = admin.firestore();
-//   db.collection("Users")
-//     .doc("7vFjDJ63DmhcQiEHwl0M7hfL3Kt1")
-//     .collection("blabla")
-//     .get()
-//     .then((snapshot) => {
-//       snapshot.forEach((doc) => {
-//         var newelement = {
-//           id: doc.id,
-//           xxxx: doc.data().xxx,
-//           yyy: doc.data().yyy,
-//         };
-//         stuff = stuff.concat(newelement);
-//       });
-//       res.send(stuff);
-//       return "";
-//     })
-//     .catch((reason) => {
-//       res.send(reason);
-//     });
-//   if (Promise.resolve()) {
-//   }
-// });

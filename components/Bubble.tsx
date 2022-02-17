@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import React from "react";
 import {
   StyleSheet,
@@ -14,8 +12,10 @@ import Animated, {
 } from "react-native-reanimated";
 import Colors from "../constants/Colors";
 import Styles from "../constants/Styles";
-import { auth } from "../firebase/utils";
+import { auth, signOutUser } from "../firebase/utils";
 import CustomText from "./CustomText";
+import { useNavigation } from "@react-navigation/native";
+import { onAuthStateChanged } from "firebase/auth";
 
 const SCALE_START = 0;
 const SCALE_END = 1;
@@ -90,9 +90,9 @@ export default function Bubble({
     }, 500);
   };
 
-  const onPress = async () => {
+  const logoutHandler = async () => {
     if (user?.email) {
-      await signOut(auth);
+      await signOutUser();
     } else {
       setModalShow(true);
       setModalAnim(true);
@@ -144,7 +144,7 @@ export default function Bubble({
                   <CustomText
                     size={22}
                     color={Colors.green}
-                    style={{ fontWeight: 600 }}
+                    style={{ fontWeight: "600" }}
                   >
                     Edit Farms
                   </CustomText>
@@ -159,7 +159,7 @@ export default function Bubble({
             ) : null}
 
             <TouchableOpacity
-              onPress={onPress}
+              onPress={logoutHandler}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -170,7 +170,7 @@ export default function Bubble({
               <CustomText
                 size={22}
                 color={Colors.green}
-                style={{ fontWeight: 600 }}
+                style={{ fontWeight: "600" }}
               >
                 {user?.email ? "Logout" : "Sign In"}
               </CustomText>
